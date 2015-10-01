@@ -4,18 +4,18 @@ def read_coils(starting_address, quantity, port=1, slave_id=1):
     :param starting_address: Number of starting address.
     :param quantity: Number of coils to read.
     :param port: Number of serial port, default 1.
-    :param slave: Number with Slave id, default 1.
+    :param slave_id: Number with Slave id, default 1.
     """
     pass
 
 
 def read_discrete_inputs(starting_address, quantity, port=1, slave_id=1):
-    """ Execute Modbus function code 02: read status of discreate inputs.
+    """ Execute Modbus function code 02: read status of discrete inputs.
 
     :param starting_address: Number of starting address.
     :param quantity: Number of discrete inputs to read.
     :param port: Number of serial port, default 1.
-    :param slave: Number with Slave id, default 1.
+    :param slave_id: Number with Slave id, default 1.
     """
     pass
 
@@ -27,7 +27,7 @@ def read_holding_registers(starting_address, quantity, port=1, slave_id=1):
     :param starting_address: Number of starting address.
     :param quantity: Number of holding registers to read.
     :param port: Number of serial port, default 1.
-    :param slave: Number with Slave id, default 1.
+    :param slave_id: Number with Slave id, default 1.
     """
     pass
 
@@ -39,7 +39,7 @@ def read_input_registers(starting_address, quantity, port=1, slave_id=1):
     :param starting_address: Number of starting address.
     :param quantity: Number of input registers to read.
     :param port: Number of serial port, default 1.
-    :param slave: Number with Slave id, default 1.
+    :param slave_id: Number with Slave id, default 1.
     """
     pass
 
@@ -50,7 +50,7 @@ def write_single_coil(address, value, port=1, slave_id=1):
     :param address: Address of coil.
     :param value: Value to write to coil.
     :param port: Number of serial port, default 1.
-    :param slave: Number with Slave id, default 1.
+    :param slave_id: Number with Slave id, default 1.
     """
     pass
 
@@ -62,7 +62,7 @@ def write_single_register(address, value, port=1, slave_id=1):
     :param address: Address of holding register.
     :param value: Value to write to holding register.
     :param port: Number of serial port, default 1.
-    :param slave: Number with Slave id, default 1.
+    :param slave_id: Number with Slave id, default 1.
     """
     pass
 
@@ -79,7 +79,7 @@ def write_multiple_coils(starting_address, values, port=1, slave_id=1):
     :param starting_address: Number of starting address.
     :param values: List with values.
     :param port: Number of serial port, default 1.
-    :param slave: Number with Slave id, default 1.
+    :param slave_id: Number with Slave id, default 1.
     """
     pass
 
@@ -96,7 +96,7 @@ def write_multiple_registers(starting_address, values, port=1, slave_id=1):
     :param starting_address: Number of starting address.
     :param values: List with values to write.
     :param port: Number of serial port, default 1.
-    :param slave: Number with Slave id, default 1.
+    :param slave_id: Number with Slave id, default 1.
     """
     pass
 
