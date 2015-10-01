@@ -16,7 +16,7 @@ from setuptools import setup
 setup(name='Tolk',
       version='0.1.0',
       author='Auke Willem Oosterhoff',
-      author_email='auke@orangetux.nl',
+      author_email='oosterhoff@baopt.nl',
       description='JSON-RPC proxy for talking Modbus over RTU.',
       long_description=__doc__,
       license='MPL',
