@@ -23,6 +23,9 @@ setup(name='Tolk',
       packages=[
           'tolk',
       ],
+      install_requires=[
+          'python-jsonrpc>=0.7.12',
+      ],
       entry_points={
           'console_scripts': [
               'tolk = tolk.cli:main',
