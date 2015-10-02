@@ -1,5 +1,5 @@
 """ Handler for dispatching incoming requests to
-:class:`tolk.json_rpc.Dispatcher`.
+:class:`tolk.Dispatcher`.
 
 """
 import socket
@@ -14,27 +14,23 @@ class Handler(BaseRequestHandler):
     """ Handler for delegating incoming requests to :class:`Dispatcher`
     instance and return its response to client.
 
-    :class:`Handler` is a subclass of :class:`BaseRequestHandler` and can be
-    used in combination with a :class:`BaseServer` instance. This server must
-    have an attribute :attr:`dispatcher` with an instance of
-    :class:`Dispatcher`.
+    :class:`Handler` is a subclass of :class:`SocketServer.BaseRequestHandler`
+    and can be used in combination with a :class:`SocketServer.BaseServer`
+    instance. This server must have an attribute :attr:`dispatcher` with an
+    instance of :class:`Dispatcher`.
 
     Below you find a few lines of code to create a server listening on a Unix
     Domain Socket for JSON-RPC requests. These requests are delegated to a
     :class:`Dispatcher` instance which in turn sends Modbus request over RTU
     using a serial port::
 
-        import fcntl
-        import struct
-        from serial import Serial
-        from modbus_tk.modbus_rtu import RtuMaster
+        from modbus_tk.modbus_tcp import TcpMaster
         from SocketServer import UnixStreamServer
 
         from tolk import Dispatcher, Handler
 
-        serial_port = Serial(port=1, baudrate=9600, parity='N')
-        modbus_master = RtuMaster(serial_port)
-        dispatcher = ModbusDispatcher(serial_port)
+        modbus_master = TcpMaster('localhost', 502)
+        dispatcher = Dispatcher(modbus_master)
 
         server = UnixStreamServer('/tmp/tolk.sock', Handler)
         server.dispatcher = dispatcher
