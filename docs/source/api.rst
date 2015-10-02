@@ -1,5 +1,5 @@
 API
 ===
 
-.. automodule:: tolk.api
-    :members: 
+.. autoclass:: tolk.json_rpc.Dispatcher
+    :members:
