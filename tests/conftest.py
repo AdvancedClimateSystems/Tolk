@@ -1,23 +1,40 @@
 import pytest
 import socket
 from threading import Thread
-from modbus_tk.modbus_tcp import TcpMaster
 from SocketServer import UnixStreamServer
+from modbus_tk.defines import (ANALOG_INPUTS, DISCRETE_INPUTS, COILS,
+                               HOLDING_REGISTERS)
+from modbus_tk.modbus_tcp import TcpMaster, TcpServer
 
 from tolk import Handler, Dispatcher
 
 
+@pytest.yield_fixture
+def modbus_server():
+    modbus_server = TcpServer(port=7632)
+
+    slave = modbus_server.add_slave(1)
+
+    slave.add_block(0, ANALOG_INPUTS, 0, 100)
+    slave.add_block(1, DISCRETE_INPUTS, 0, 100)
+    slave.add_block(2, COILS, 100, 100)
+    slave.add_block(3, HOLDING_REGISTERS, 100, 100)
+
+    modbus_server.start()
+
+    yield modbus_server
+
+    modbus_server.stop()
+
+
 @pytest.fixture
-def modbus_master():
+def modbus_master(modbus_server):
     """ Return an instance of TcpMaster with mocked attribute `execute`. This
     method always returns [0].
     """
-    modbus_master = TcpMaster()
+    _, port = modbus_server._sa
+    modbus_master = TcpMaster(port=port)
 
-    def mock_execute(*args, **kwargs):
-        return [0]
-
-    modbus_master.execute = mock_execute
     return modbus_master
 
 
