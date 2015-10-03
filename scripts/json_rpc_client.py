@@ -5,6 +5,7 @@ Usage:
     json_rpc_client read_coils <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
     json_rpc_client read_discrete_inputs <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
     json_rpc_client read_holding_registers <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
+    json_rpc_client read_input_registers <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
 
 Options:
     -h --help                   Show this screen.
@@ -45,6 +46,8 @@ if __name__ == '__main__':
         method = 'read_discrete_inputs'
     elif args['read_holding_registers']:
         method = 'read_holding_registers'
+    elif args['read_input_registers']:
+        method = 'read_input_registers'
 
     msg = create_message(method, int(args['<starting-address>']),
                          int(args['<quantity>']), int(args['--port']),

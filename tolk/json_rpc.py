@@ -1,6 +1,6 @@
 from pyjsonrpc import JsonRpc, rpcmethod
 from modbus_tk.defines import (READ_COILS, READ_DISCRETE_INPUTS,
-                               READ_HOLDING_REGISTERS)
+                               READ_HOLDING_REGISTERS, READ_INPUT_REGISTERS)
 
 
 class Dispatcher(JsonRpc):
@@ -40,8 +40,8 @@ class Dispatcher(JsonRpc):
     @rpcmethod
     def read_holding_registers(self, starting_address, quantity, port=1,
                                slave_id=1):
-        """ Execute Modbus function code 03: read contents of contiguous block of
-        holding registers.
+        """ Execute Modbus function code 03: read contents of contiguous block
+        of holding registers.
 
         :param starting_address: Number of starting address.
         :param quantity: Number of holding registers to read.
@@ -56,15 +56,18 @@ class Dispatcher(JsonRpc):
     @rpcmethod
     def read_input_registers(self, starting_address, quantity, port=1,
                              slave_id=1):
-        """ Execute Modbus function code 04: read contents of contiguous block of
-        input registers.
+        """ Execute Modbus function code 04: read contents of contiguous block
+        of input registers.
 
         :param starting_address: Number of starting address.
         :param quantity: Number of input registers to read.
         :param port: Number of serial port, default 1.
         :param slave: Number with Slave id, default 1.
         """
-        pass
+        return self.modbus_master.execute(int(slave_id),
+                                          READ_INPUT_REGISTERS,
+                                          int(starting_address), int(quantity),
+                                          int(port))
 
     @rpcmethod
     def write_single_coil(self, address, value, port=1, slave_id=1):
