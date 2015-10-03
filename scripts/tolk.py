@@ -16,12 +16,15 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 '../'))
 
+from logbook import Logger, StreamHandler
 from modbus_tk.modbus_tcp import TcpMaster
 from SocketServer import UnixStreamServer
 from docopt import docopt
 
 from tolk import Dispatcher, Handler
 
+StreamHandler(sys.stdout).push_application()
+log = Logger(__name__)
 
 if __name__ == '__main__':
     args = docopt(__doc__)
@@ -33,8 +36,11 @@ if __name__ == '__main__':
     server.dispatcher = dispatcher
 
     try:
+        log.info('Start Tolk listening at {}.'.format(args['--socket']))
         server.serve_forever()
     except KeyboardInterrupt:
+        log.info('Received SIGINT. Exiting')
         pass
     finally:
         os.unlink(args['--socket'])
+        log.info('Tolk has stopped')
