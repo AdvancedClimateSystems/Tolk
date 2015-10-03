@@ -1,4 +1,5 @@
 import pytest
+import socket
 from threading import Thread
 from modbus_tk.modbus_tcp import TcpMaster
 from SocketServer import UnixStreamServer
@@ -49,3 +50,14 @@ def running_server(server):
     yield server
 
     server.shutdown()
+
+
+@pytest.yield_fixture
+def sock(running_server):
+    """ Return socket instance connected to Tolk server. """
+    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    sock.connect(running_server.server_address)
+
+    yield sock
+
+    sock.close()
