@@ -1,6 +1,5 @@
 from pyjsonrpc import JsonRpc, rpcmethod
-
-READ_COILS = 1
+from modbus_tk.defines import READ_COILS, READ_DISCRETE_INPUTS
 
 
 class Dispatcher(JsonRpc):
@@ -33,7 +32,9 @@ class Dispatcher(JsonRpc):
         :param port: Number of serial port, default 1.
         :param slave: Number with Slave id, default 1.
         """
-        pass
+        return self.modbus_master.execute(int(slave_id), READ_DISCRETE_INPUTS,
+                                          int(starting_address),
+                                          int(quantity), int(port))
 
     @rpcmethod
     def read_holding_registers(self, starting_address, quantity, port=1,

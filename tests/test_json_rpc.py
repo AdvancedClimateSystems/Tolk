@@ -1,5 +1,5 @@
-import socket
 import json
+import pytest
 from uuid import uuid4
 
 
@@ -32,16 +32,22 @@ def get_expected_response(request_msg, result):
     }
 
 
-class TestDispatcher():
+@pytest.mark.parametrize('method', [
+    'read_coils',
+    'read_discrete_inputs',
+])
+def test_dispatchers_read_methods(sock, method):
+    """ Test the methods Dispatcher.read_coils and
+    Dispatcher.read_discrete_inputs by sending the proper JSON-RPC messages
+    to the socket. At the other end of this socket a server is listening
+    which delegates the requests to a Dispatcher instance. See conftest for
+    more info.
 
-    def test_read_coils(self, running_server):
-        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        sock.connect(running_server.server_address)
+    This test is more an intergration test rather than a unit test.
 
-        msg = get_json_rpc_message('read_coils', 100, 1)
-        sock.sendall(msg)
+    """
+    msg = get_json_rpc_message(method, 100, 1)
+    sock.sendall(msg)
+    resp = sock.recv(1024)
 
-        resp = sock.recv(1024)
-        sock.close()
-
-        assert json.loads(resp) == get_expected_response(msg, [0])
+    assert json.loads(resp) == get_expected_response(msg, [0])
