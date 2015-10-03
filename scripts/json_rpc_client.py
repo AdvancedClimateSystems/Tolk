@@ -2,7 +2,7 @@
 """ Send JSON-RPC requests.
 
 Usage:
-    json_rpc_client read_coils <starting-address> <quantity> [--port=<nr> | --slave-id=<nr> | --socket=<path>]
+    json_rpc_client read_coils <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
 
 Options:
     -h --help                   Show this screen.

@@ -33,6 +33,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   quickstart
    api
    modules
-
+   scripts

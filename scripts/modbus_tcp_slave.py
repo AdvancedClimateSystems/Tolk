@@ -2,10 +2,11 @@
 """ Modbus slave listening at a port.
 
 Usage:
-    modbus_tcp_slave.py [--host=<name> | --port=<nr>]
+    modbus_tcp_slave.py [--host=<name> --port=<nr>]
 
 Options:
     -h --help       Show this screen.
+    --host=<name>   Name of host [default: ""].
     --port=<nr>     The port where slave is listening at [default: 502].
 
 """

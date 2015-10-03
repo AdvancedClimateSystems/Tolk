@@ -2,7 +2,7 @@
 """ Tolk
 
 Usage:
-    tolk [--socket=<path> | --modbus-host=<host> | --modbus-port=<nr>]
+    tolk [--socket=<path> --modbus-host=<host> --modbus-port=<nr>]
 
 Options:
     -h --help           Show this screen.
