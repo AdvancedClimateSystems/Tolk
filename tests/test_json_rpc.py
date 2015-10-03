@@ -36,6 +36,7 @@ def get_expected_response(request_msg, result):
     'read_coils',
     'read_discrete_inputs',
     'read_holding_registers',
+    'read_input_registers',
 ])
 def test_dispatchers_read_methods(sock, method):
     """ Test the methods Dispatcher.read_coils and
