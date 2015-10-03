@@ -64,7 +64,7 @@ This software is licensed under [Mozila Public License][mpl].
 
 [acs]: http://advancedclimate.nl
 [docker-compose]: docker-compose.yml
-[json_pc_client.py]: scripts/json_rpc_client.py
+[json_rpc_client.py]: scripts/json_rpc_client.py
 [modbus_tcp_slave.py]: scripts/modbus_tcp_slave.py
 [mpl]: LICENSE
 [pytest]: http://pytest.org/latest/
