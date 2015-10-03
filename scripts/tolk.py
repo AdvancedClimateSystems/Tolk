@@ -5,7 +5,7 @@ Usage:
     tolk [--socket=<path> | --modbus-host=<host> | --modbus-port=<nr>]
 
 Options:
-    -h --help   Show this screen.
+    -h --help           Show this screen.
     --socket=<path>     Location of Tolk's socket [default: /tmp/tolk.sock].
     --modbus-host=<ip>  IP of Modbus slave [default: localhost].
     --modbus-port=<nr>  Port of Modbus slave [default: 502]
@@ -29,7 +29,8 @@ log = Logger(__name__)
 if __name__ == '__main__':
     args = docopt(__doc__)
 
-    modbus_master = TcpMaster(args['--modbus-host'], args['--modbus-port'])
+    modbus_master = TcpMaster(args['--modbus-host'],
+                              int(args['--modbus-port']))
     dispatcher = Dispatcher(modbus_master)
 
     server = UnixStreamServer(args['--socket'], Handler)
