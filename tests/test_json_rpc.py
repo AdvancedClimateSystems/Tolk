@@ -35,6 +35,7 @@ def get_expected_response(request_msg, result):
 @pytest.mark.parametrize('method', [
     'read_coils',
     'read_discrete_inputs',
+    'read_holding_registers',
 ])
 def test_dispatchers_read_methods(sock, method):
     """ Test the methods Dispatcher.read_coils and
