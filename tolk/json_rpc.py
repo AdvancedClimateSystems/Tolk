@@ -1,4 +1,6 @@
-from pyjsonrpc import JsonRpc
+from pyjsonrpc import JsonRpc, rpcmethod
+
+READ_COILS = 1
 
 
 class Dispatcher(JsonRpc):
@@ -8,6 +10,7 @@ class Dispatcher(JsonRpc):
 
         super(JsonRpc, self).__init__()
 
+    @rpcmethod
     def read_coils(self, starting_address, quantity, port=1, slave_id=1):
         """ Execute Modbus function code 01: read status of coils.
 
@@ -16,8 +19,11 @@ class Dispatcher(JsonRpc):
         :param port: Number of serial port, default 1.
         :param slave: Number with Slave id, default 1.
         """
-        pass
+        return self.modbus_master.execute(int(slave_id), READ_COILS,
+                                          int(starting_address),
+                                          int(quantity), int(port))
 
+    @rpcmethod
     def read_discrete_inputs(self, starting_address, quantity, port=1,
                              slave_id=1):
         """ Execute Modbus function code 02: read status of discreate inputs.
@@ -29,6 +35,7 @@ class Dispatcher(JsonRpc):
         """
         pass
 
+    @rpcmethod
     def read_holding_registers(self, starting_address, quantity, port=1,
                                slave_id=1):
         """ Execute Modbus function code 03: read contents of contiguous block of
@@ -41,6 +48,7 @@ class Dispatcher(JsonRpc):
         """
         pass
 
+    @rpcmethod
     def read_input_registers(self, starting_address, quantity, port=1,
                              slave_id=1):
         """ Execute Modbus function code 04: read contents of contiguous block of
@@ -53,6 +61,7 @@ class Dispatcher(JsonRpc):
         """
         pass
 
+    @rpcmethod
     def write_single_coil(self, address, value, port=1, slave_id=1):
         """ Execute Modbus function code 05: write value to single coil.
 
@@ -63,6 +72,7 @@ class Dispatcher(JsonRpc):
         """
         pass
 
+    @rpcmethod
     def write_single_register(self, address, value, port=1, slave_id=1):
         """ Execute Modbus function code 06: write value to single holding
         register.
@@ -74,6 +84,7 @@ class Dispatcher(JsonRpc):
         """
         pass
 
+    @rpcmethod
     def write_multiple_coils(self, starting_address, values, port=1,
                              slave_id=1):
         """ Execute Modbus function code 15: write sequence of values to a
@@ -91,6 +102,7 @@ class Dispatcher(JsonRpc):
         """
         pass
 
+    @rpcmethod
     def write_multiple_registers(self, starting_address, values, port=1,
                                  slave_id=1):
         """ Execute Modbus function code 16: write sequence of values to a
