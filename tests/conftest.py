@@ -16,7 +16,11 @@ def modbus_server():
     slave = modbus_server.add_slave(1)
 
     slave.add_block(0, ANALOG_INPUTS, 0, 100)
+    slave.set_values(0, 0, [1337, 2890])
+
     slave.add_block(1, DISCRETE_INPUTS, 0, 100)
+    slave.set_values(1, 0, [1, 0])
+
     slave.add_block(2, COILS, 100, 100)
     slave.add_block(3, HOLDING_REGISTERS, 100, 100)
 

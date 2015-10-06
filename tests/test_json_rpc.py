@@ -1,14 +1,6 @@
 import json
-import pytest
 import socket
 from uuid import uuid4
-
-
-def get_new_socket(name):
-    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-    sock.connect(name)
-
-    return sock
 
 
 def get_json_rpc_message(method, params):
@@ -19,6 +11,19 @@ def get_json_rpc_message(method, params):
         'params': params,
         'id': uuid4().int
     })
+
+
+def get_expected_response(request_msg, result):
+    """ Return a response based on response message and expected result of
+    Modbus master.
+    """
+    msg = json.loads(request_msg)
+
+    return {
+        'jsonrpc': '2.0',
+        'result': result,
+        'id': msg['id'],
+    }
 
 
 def get_socket(socket_path):
@@ -37,9 +42,25 @@ def read_coils(starting_address, quantity, sock):
     return send_request(msg, sock)
 
 
+def read_discrete_inputs(starting_address, quantity, sock):
+    """ Send read_discrete_inputs over socket. """
+    msg = get_json_rpc_message('read_discrete_inputs',
+                               {'starting_address': starting_address,
+                                'quantity': quantity})
+    return send_request(msg, sock)
+
+
 def read_holding_registers(starting_address, quantity, sock):
     """ Send read_coils over socket. """
     msg = get_json_rpc_message('read_holding_registers',
+                               {'starting_address': starting_address,
+                                'quantity': quantity})
+    return send_request(msg, sock)
+
+
+def read_input_registers(starting_address, quantity, sock):
+    """ Send read_input_registers over socket. """
+    msg = get_json_rpc_message('read_input_registers',
                                {'starting_address': starting_address,
                                 'quantity': quantity})
     return send_request(msg, sock)
@@ -72,39 +93,28 @@ def send_request(msg, sock):
     return msg, resp
 
 
-def get_expected_response(request_msg, result):
-    """ Return a response based on response message and expected result of
-    Modbus master,o
+def test_read_discrete_inputs(running_server):
+    """ Test following Modbus methods:
+    * methods read_discrete_inputs, function code 02.
     """
-    msg = json.loads(request_msg)
+    # Use read_discrete_input (function code 02) to read discrete inputs 0 and
+    # 1.
+    sock = get_socket(running_server.server_address)
+    msg, resp = read_discrete_inputs(starting_address=0, quantity=2,
+                                     sock=sock)
+    assert json.loads(resp) == get_expected_response(msg, [1, 0])
 
-    return {
-        'jsonrpc': '2.0',
-        'result': result,
-        'id': msg['id'],
-    }
 
-
-@pytest.mark.skipif(reason='True')
-@pytest.mark.parametrize('method', [
-    'read_discrete_inputs',
-    'read_input_registers',
-])
-def test_dispatchers_read_methods(sock, method):
-    """ Test the methods Dispatcher.read_coils and
-    Dispatcher.read_discrete_inputs by sending the proper JSON-RPC messages
-    to the socket. At the other end of this socket a server is listening
-    which delegates the requests to a Dispatcher instance. See conftest for
-    more info.
-
-    This test is more an intergration test rather than a unit test.
-
+def test_read_analog_inputs(running_server):
+    """ Test following Modbus methods:
+    * methods read_discrete_inputs, function code 04.
     """
-    msg = get_json_rpc_message(method, 100, 1)
-    sock.sendall(msg)
-    resp = sock.recv(1024)
-
-    assert json.loads(resp) == get_expected_response(msg, [0])
+    # Use read_input_registers (function code 02) to read input registers 0 and
+    # 1.
+    sock = get_socket(running_server.server_address)
+    msg, resp = read_input_registers(starting_address=0, quantity=2,
+                                     sock=sock)
+    assert json.loads(resp) == get_expected_response(msg, [1337, 2890])
 
 
 def test_read_and_write_holding_registers(running_server):
