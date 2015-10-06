@@ -7,6 +7,7 @@ Usage:
     json_rpc_client read_holding_registers <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
     json_rpc_client read_input_registers <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
     json_rpc_client write_single_coil <address> <value> [--port=<nr> --slave-id=<nr> --socket=<path>]
+    json_rpc_client write_multiple_coils <starting_address> <values> [--port=<nr> --slave-id=<nr> --socket=<path>]
 
 Options:
     -h --help                   Show this screen.
@@ -21,7 +22,8 @@ from uuid import uuid4
 from docopt import docopt
 
 READ = 0
-WRITE = 1
+SINGLE_WRITE = 1
+MULTIPLE_WRITE = 2
 
 
 def create_message(method, params):
@@ -54,9 +56,12 @@ if __name__ == '__main__':
         method = 'read_input_registers'
         method_type = READ
 
-    if args['write_single_coil']:
+    elif args['write_single_coil']:
         method = 'write_single_coil'
-        method_type = WRITE
+        method_type = SINGLE_WRITE
+    elif args['write_multiple_coils']:
+        method = 'write_multiple_coils'
+        method_type = MULTIPLE_WRITE
 
     if method_type == READ:
         params = {
@@ -65,10 +70,20 @@ if __name__ == '__main__':
             'port': int(args['--port']),
             'slave_id': int(args['--slave-id']),
         }
-    elif method_type == WRITE:
+    elif method_type == SINGLE_WRITE:
         params = {
             'address': int(args['<address>']),
             'value': int(args['<value>']),
+            'port': int(args['--port']),
+            'slave_id': int(args['--slave-id']),
+        }
+    elif method_type == MULTIPLE_WRITE:
+        # Transform a string like '1,0,13' into a list of integers.
+        values = [int(v) for v in args['<values>'].split(',')]
+
+        params = {
+            'starting_address': int(args['<starting_address>']),
+            'values': values,
             'port': int(args['--port']),
             'slave_id': int(args['--slave-id']),
         }
