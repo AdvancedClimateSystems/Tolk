@@ -29,18 +29,26 @@ def get_socket(socket_path):
     return sock
 
 
-def write_single_coil(address, value, sock):
-    """ Send write_single_coil request over socket. """
-    msg = get_json_rpc_message('write_single_coil', {'address':  address,
-                                                     'value': value})
-    return send_request(msg, sock)
-
-
 def read_coils(starting_address, quantity, sock):
     """ Send read_coils over socket. """
     msg = get_json_rpc_message('read_coils',
                                {'starting_address': starting_address,
                                 'quantity': quantity})
+    return send_request(msg, sock)
+
+
+def read_holding_registers(starting_address, quantity, sock):
+    """ Send read_coils over socket. """
+    msg = get_json_rpc_message('read_holding_registers',
+                               {'starting_address': starting_address,
+                                'quantity': quantity})
+    return send_request(msg, sock)
+
+
+def write_single_coil(address, value, sock):
+    """ Send write_single_coil request over socket. """
+    msg = get_json_rpc_message('write_single_coil', {'address':  address,
+                                                     'value': value})
     return send_request(msg, sock)
 
 
@@ -54,13 +62,14 @@ def write_multiple_coils(starting_address, values, sock):
 
 
 def send_request(msg, sock):
+    """ Send request to socket and close socket when recieved response.
+    Return both request and response.
+    """
     sock.sendall(msg)
     resp = sock.recv(1024)
 
     sock.close()
     return msg, resp
-
-
 
 
 def get_expected_response(request_msg, result):
@@ -78,9 +87,7 @@ def get_expected_response(request_msg, result):
 
 @pytest.mark.skipif(reason='True')
 @pytest.mark.parametrize('method', [
-    'read_coils',
     'read_discrete_inputs',
-    'read_holding_registers',
     'read_input_registers',
 ])
 def test_dispatchers_read_methods(sock, method):
@@ -100,7 +107,25 @@ def test_dispatchers_read_methods(sock, method):
     assert json.loads(resp) == get_expected_response(msg, [0])
 
 
+def test_read_and_write_holding_registers(running_server):
+    """ Test following Modbus methods:
+    * methods read_holding_registers, function code 03
+    * write_single_register, function code 06
+    * write_multiple_registers, function code 16
+    """
+    # Use read_coils (function code 01) to read coil 100.
+    sock = get_socket(running_server.server_address)
+    msg, resp = read_holding_registers(starting_address=100, quantity=1,
+                                       sock=sock)
+    assert json.loads(resp) == get_expected_response(msg, [0])
+
+
 def test_read_and_write_coils(running_server):
+    """ Test following Modbus methods:
+    * methods read_coils, function code 01
+    * write_single_coil, function code 05
+    * write_multiple_coils, function code 15
+    """
     # First, use write_single_coil (function code 05) to write 1 to coil 100.
     sock = get_socket(running_server.server_address)
     msg, resp = write_single_coil(address=100, value=1, sock=sock)

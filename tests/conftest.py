@@ -1,5 +1,5 @@
 import pytest
-import socket
+from random import randint
 from threading import Thread
 from SocketServer import UnixStreamServer
 from modbus_tk.defines import (ANALOG_INPUTS, DISCRETE_INPUTS, COILS,
@@ -11,7 +11,7 @@ from tolk import Handler, Dispatcher
 
 @pytest.yield_fixture
 def modbus_server():
-    modbus_server = TcpServer(port=7632)
+    modbus_server = TcpServer(port=randint(1025, 9999))
 
     slave = modbus_server.add_slave(1)
 
@@ -67,14 +67,3 @@ def running_server(server):
     yield server
 
     server.shutdown()
-
-
-@pytest.yield_fixture
-def sock(running_server):
-    """ Return socket instance connected to Tolk server. """
-    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-    sock.connect(running_server.server_address)
-
-    yield sock
-
-    sock.close()
