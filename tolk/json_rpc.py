@@ -1,7 +1,7 @@
 from pyjsonrpc import JsonRpc, rpcmethod
 from modbus_tk.defines import (READ_COILS, READ_DISCRETE_INPUTS,
                                READ_HOLDING_REGISTERS, READ_INPUT_REGISTERS,
-                               WRITE_SINGLE_COIL)
+                               WRITE_SINGLE_COIL, WRITE_MULTIPLE_COILS)
 
 
 class Dispatcher(JsonRpc):
@@ -111,7 +111,11 @@ class Dispatcher(JsonRpc):
         :param port: Number of serial port, default 1.
         :param slave: Number with Slave id, default 1.
         """
-        pass
+        values = [int(v) for v in values]
+        return self.modbus_master.execute(int(slave_id),
+                                          WRITE_MULTIPLE_COILS,
+                                          int(starting_address),
+                                          output_value=values)
 
     @rpcmethod
     def write_multiple_registers(self, starting_address, values, port=1,
