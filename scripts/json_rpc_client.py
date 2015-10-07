@@ -20,14 +20,22 @@ import json
 import socket
 from uuid import uuid4
 from docopt import docopt
+from collections import namedtuple
 
 READ = 0
 SINGLE_WRITE = 1
 MULTIPLE_WRITE = 2
 
+Method = namedtuple('Method', ['name', 'type_'])
 
-def create_message(method, params):
-    """ Return a JSON-RPC formatted string. """
+
+def get_json_rpc_message(method, params):
+    """ Return a JSON-RPC formatted string.
+
+    :param method: Name of JSON-RPC method.
+    :param params: Dictionary with JSON-RPC parameters.
+    :return: JSON-RPC valid string.
+    """
     return json.dumps({
         'jsonrpc': '2.0',
         'method': method,
@@ -41,54 +49,44 @@ if __name__ == '__main__':
     s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     s.connect('/tmp/tolk.sock')
 
-    method_type = None
-
     if args['read_coils']:
-        method = 'read_coils'
-        method_type = READ
+        method = Method(name='read_coils',  type_=READ)
     elif args['read_discrete_inputs']:
-        method = 'read_discrete_inputs'
-        method_type = READ
+        method = Method(name='discrete_inputs',  type_=READ)
     elif args['read_holding_registers']:
-        method = 'read_holding_registers'
-        method_type = READ
+        method = Method(name='read_holding_registers', type_=READ)
     elif args['read_input_registers']:
-        method = 'read_input_registers'
-        method_type = READ
-
+        method = Method(name='read_input_registers', type_=READ)
     elif args['write_single_coil']:
-        method = 'write_single_coil'
-        method_type = SINGLE_WRITE
+        method = Method(name='write_single_coil', type_=SINGLE_WRITE)
+     elif args['write_single_register']:
+         method = Method(name='write_single_register', type_=SINGLE_WRITE)
     elif args['write_multiple_coils']:
-        method = 'write_multiple_coils'
-        method_type = MULTIPLE_WRITE
+        method = Method(name='write_multiple_coils', type_=MULTIPLE_WRITE)
 
-    if method_type == READ:
+    if method.type_ == READ:
         params = {
             'starting_address': int(args['<starting-address>']),
             'quantity': int(args['<quantity>']),
-            'port': int(args['--port']),
-            'slave_id': int(args['--slave-id']),
         }
-    elif method_type == SINGLE_WRITE:
+    elif method.type_ == SINGLE_WRITE:
         params = {
             'address': int(args['<address>']),
             'value': int(args['<value>']),
-            'port': int(args['--port']),
-            'slave_id': int(args['--slave-id']),
         }
-    elif method_type == MULTIPLE_WRITE:
+    elif method.type_ == MULTIPLE_WRITE:
         # Transform a string like '1,0,13' into a list of integers.
         values = [int(v) for v in args['<values>'].split(',')]
 
         params = {
             'starting_address': int(args['<starting_address>']),
             'values': values,
-            'port': int(args['--port']),
-            'slave_id': int(args['--slave-id']),
         }
 
-    msg = create_message(method, params)
+    params['port'] = int(args['--port'])
+    params['slave_id'] = int(args['--slave-id'])
+
+    msg = get_json_rpc_message(method.name, params)
     s.sendall(msg)
 
     resp = json.loads(s.recv(1024))

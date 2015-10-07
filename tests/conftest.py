@@ -11,6 +11,7 @@ from tolk import Handler, Dispatcher
 
 @pytest.yield_fixture
 def modbus_server():
+    """ Yield an instance of modbus_tk.TcpServer. """
     modbus_server = TcpServer(port=randint(1025, 9999))
 
     slave = modbus_server.add_slave(1)
@@ -33,9 +34,7 @@ def modbus_server():
 
 @pytest.fixture
 def modbus_master(modbus_server):
-    """ Return an instance of TcpMaster with mocked attribute `execute`. This
-    method always returns [0].
-    """
+    """ Return an instance of TcpMaster. """
     _, port = modbus_server._sa
     modbus_master = TcpMaster(port=port)
 
