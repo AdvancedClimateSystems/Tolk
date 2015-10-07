@@ -73,9 +73,25 @@ def write_single_coil(address, value, sock):
     return send_request(msg, sock)
 
 
+def write_single_register(address, value, sock):
+    """ Send write_single_register request over socket. """
+    msg = get_json_rpc_message('write_single_register', {'address':  address,
+                                                         'value': value})
+    return send_request(msg, sock)
+
+
 def write_multiple_coils(starting_address, values, sock):
     """ Send write_multiple_coils request over socket. """
     msg = get_json_rpc_message('write_multiple_coils',
+                               {'starting_address': starting_address,
+                                'values': values})
+
+    return send_request(msg, sock)
+
+
+def write_multiple_registers(starting_address, values, sock):
+    """ Send write_multiple_registers request over socket. """
+    msg = get_json_rpc_message('write_multiple_registers',
                                {'starting_address': starting_address,
                                 'values': values})
 
@@ -123,11 +139,31 @@ def test_read_and_write_holding_registers(running_server):
     * write_single_register, function code 06
     * write_multiple_registers, function code 16
     """
+    # First, use write_single_register (function code 06) to write 1337 to
+    # register 100.
+    sock = get_socket(running_server.server_address)
+    msg, resp = write_single_register(address=100, value=1337, sock=sock)
+    assert json.loads(resp) == get_expected_response(msg, [100, 1337])
+
     # Use read_coils (function code 01) to read coil 100.
     sock = get_socket(running_server.server_address)
     msg, resp = read_holding_registers(starting_address=100, quantity=1,
                                        sock=sock)
-    assert json.loads(resp) == get_expected_response(msg, [0])
+    assert json.loads(resp) == get_expected_response(msg, [1337])
+
+    # Now, use write_multiple_registers (function code 16) to write 0 to
+    # register 100 and 2674 to coil 101.
+    sock = get_socket(running_server.server_address)
+    msg, resp = write_multiple_registers(starting_address=100,
+                                        values=[0, 2674], sock=sock)
+    assert json.loads(resp) == get_expected_response(msg, [100, 2])
+
+    # Read registers 100 and 101 again to verify previous write requests was
+    # succesful.
+    sock = get_socket(running_server.server_address)
+    msg, resp = read_holding_registers(starting_address=100, quantity=2,
+                                       sock=sock)
+    assert json.loads(resp) == get_expected_response(msg, [0, 2674])
 
 
 def test_read_and_write_coils(running_server):
@@ -153,7 +189,7 @@ def test_read_and_write_coils(running_server):
                                      sock=sock)
     assert json.loads(resp) == get_expected_response(msg, [100, 2])
 
-    # Read coils 100 and 101 again to verify previous write requsts was
+    # Read coils 100 and 101 again to verify previous write requests was
     # succesful.
     sock = get_socket(running_server.server_address)
     msg, resp = read_coils(starting_address=100, quantity=2, sock=sock)

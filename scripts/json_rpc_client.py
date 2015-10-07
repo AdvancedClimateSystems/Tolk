@@ -7,7 +7,9 @@ Usage:
     json_rpc_client read_holding_registers <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
     json_rpc_client read_input_registers <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
     json_rpc_client write_single_coil <address> <value> [--port=<nr> --slave-id=<nr> --socket=<path>]
+    json_rpc_client write_single_register <address> <value> [--port=<nr> --slave-id=<nr> --socket=<path>]
     json_rpc_client write_multiple_coils <starting_address> <values> [--port=<nr> --slave-id=<nr> --socket=<path>]
+    json_rpc_client write_multiple_registers <starting_address> <values> [--port=<nr> --slave-id=<nr> --socket=<path>]
 
 Options:
     -h --help                   Show this screen.
@@ -59,10 +61,12 @@ if __name__ == '__main__':
         method = Method(name='read_input_registers', type_=READ)
     elif args['write_single_coil']:
         method = Method(name='write_single_coil', type_=SINGLE_WRITE)
-     elif args['write_single_register']:
-         method = Method(name='write_single_register', type_=SINGLE_WRITE)
+    elif args['write_single_register']:
+        method = Method(name='write_single_register', type_=SINGLE_WRITE)
     elif args['write_multiple_coils']:
         method = Method(name='write_multiple_coils', type_=MULTIPLE_WRITE)
+    elif args['write_multiple_registers']:
+        method = Method(name='write_multiple_registers', type_=MULTIPLE_WRITE)
 
     if method.type_ == READ:
         params = {
