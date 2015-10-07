@@ -4,7 +4,7 @@ tests:
         - ./:/src
     working_dir: /src
     command:
-        py.test tests/
+        py.test --cov-report term-missing --cov=tolk -v tests/
 
 docs:
     build: .
