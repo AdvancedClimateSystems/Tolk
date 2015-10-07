@@ -2,18 +2,17 @@
 """ Send JSON-RPC requests.
 
 Usage:
-    json_rpc_client read_coils <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
-    json_rpc_client read_discrete_inputs <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
-    json_rpc_client read_holding_registers <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
-    json_rpc_client read_input_registers <starting-address> <quantity> [--port=<nr> --slave-id=<nr> --socket=<path>]
-    json_rpc_client write_single_coil <address> <value> [--port=<nr> --slave-id=<nr> --socket=<path>]
-    json_rpc_client write_single_register <address> <value> [--port=<nr> --slave-id=<nr> --socket=<path>]
-    json_rpc_client write_multiple_coils <starting_address> <values> [--port=<nr> --slave-id=<nr> --socket=<path>]
-    json_rpc_client write_multiple_registers <starting_address> <values> [--port=<nr> --slave-id=<nr> --socket=<path>]
+    json_rpc_client read_coils <starting-address> <quantity> [--slave-id=<nr> --socket=<path>]
+    json_rpc_client read_discrete_inputs <starting-address> <quantity> [--slave-id=<nr> --socket=<path>]
+    json_rpc_client read_holding_registers <starting-address> <quantity> [--slave-id=<nr> --socket=<path>]
+    json_rpc_client read_input_registers <starting-address> <quantity> [--slave-id=<nr> --socket=<path>]
+    json_rpc_client write_single_coil <address> <value> [--slave-id=<nr> --socket=<path>]
+    json_rpc_client write_single_register <address> <value> [--slave-id=<nr> --socket=<path>]
+    json_rpc_client write_multiple_coils <starting_address> <values> [--slave-id=<nr> --socket=<path>]
+    json_rpc_client write_multiple_registers <starting_address> <values> [--slave-id=<nr> --socket=<path>]
 
 Options:
     -h --help                   Show this screen.
-    -p --port=<nr>              Number of serial port [default: 1].
     -s --slave-id=<nr>          Id of slave [default: 1].
     --socket=</tmp/tolk.sock>   Location of Tolk's socket [default: /tmp/tolk.sock].
 
@@ -87,7 +86,6 @@ if __name__ == '__main__':
             'values': values,
         }
 
-    params['port'] = int(args['--port'])
     params['slave_id'] = int(args['--slave-id'])
 
     msg = get_json_rpc_message(method.name, params)
