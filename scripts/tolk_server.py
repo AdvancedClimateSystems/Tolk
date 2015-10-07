@@ -26,7 +26,8 @@ from tolk import Dispatcher, Handler
 StreamHandler(sys.stdout).push_application()
 log = Logger(__name__)
 
-if __name__ == '__main__':
+
+def main():
     args = docopt(__doc__)
 
     modbus_master = TcpMaster(args['--modbus-host'],
@@ -45,3 +46,7 @@ if __name__ == '__main__':
     finally:
         os.unlink(args['--socket'])
         log.info('Tolk has stopped')
+
+
+if __name__ == '__main__':
+    main()
