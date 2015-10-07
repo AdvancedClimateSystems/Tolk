@@ -19,6 +19,7 @@ turn will request a Modbus slave at `localhost:502`.
 
     from tolk import Dispatcher, Handler
 
+    # The TcpMaster will fire requests to a Modbus slave at localhost:502.
     modbus_master = TcpMaster('localhost', 502)
     dispatcher = Dispatcher(modbus_master)
 
@@ -27,13 +28,19 @@ turn will request a Modbus slave at `localhost:502`.
 
     server.serve_forever()
 
+Tolk is completely open source and can be found on GitHub_.
+
 Contents:
 ---------
 
 .. toctree::
    :maxdepth: 2
 
-   quickstart
+   installation
+   usage
    api
-   modules
    scripts
+   modules
+
+.. External references:
+.. _GitHub: https://github.com/AdvancedClimateSystems/Tolk

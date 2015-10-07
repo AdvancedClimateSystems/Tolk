@@ -3,13 +3,7 @@
 Tolk
 ====
 
-Tolk is JSON-RPC proxy for doing serial communication in the form of Modbus
-over RTU.
-
-.. code:: bash
-
-    $ ./tolk
-
+Tolk is JSON-RPC proxy for doing Modbus communication over RTU and TCP.
 """
 from setuptools import setup
 
