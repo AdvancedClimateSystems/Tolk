@@ -1,6 +1,0 @@
--r requirements.txt
-
-coverage==4.0
-py==1.4.30
-pytest==2.8.1
-pytest-cov==2.1.0
