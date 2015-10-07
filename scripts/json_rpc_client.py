@@ -59,8 +59,8 @@ if __name__ == '__main__':
         method = Method(name='read_input_registers', type_=READ)
     elif args['write_single_coil']:
         method = Method(name='write_single_coil', type_=SINGLE_WRITE)
-     elif args['write_single_register']:
-         method = Method(name='write_single_register', type_=SINGLE_WRITE)
+    elif args['write_single_register']:
+        method = Method(name='write_single_register', type_=SINGLE_WRITE)
     elif args['write_multiple_coils']:
         method = Method(name='write_multiple_coils', type_=MULTIPLE_WRITE)
 
