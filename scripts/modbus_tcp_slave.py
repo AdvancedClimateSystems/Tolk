@@ -24,7 +24,8 @@ log = Logger(__name__)
 
 logger = create_logger(name="console", record_format="%(message)s")
 
-if __name__ == "__main__":
+
+def main():
     args = docopt(__doc__)
     server = TcpServer(port=int(args['--port']))
     slave = server.add_slave(1)
@@ -49,3 +50,7 @@ if __name__ == "__main__":
     finally:
         server.stop()
         log.info('TcpServer has stopped.')
+
+
+if __name__ == "__main__":
+    main()

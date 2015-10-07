@@ -31,21 +31,7 @@ MULTIPLE_WRITE = 2
 Method = namedtuple('Method', ['name', 'type_'])
 
 
-def get_json_rpc_message(method, params):
-    """ Return a JSON-RPC formatted string.
-
-    :param method: Name of JSON-RPC method.
-    :param params: Dictionary with JSON-RPC parameters.
-    :return: JSON-RPC valid string.
-    """
-    return json.dumps({
-        'jsonrpc': '2.0',
-        'method': method,
-        'params': params,
-        'id': uuid4().int,
-    })
-
-if __name__ == '__main__':
+def main():
     args = docopt(__doc__)
 
     s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
@@ -97,3 +83,21 @@ if __name__ == '__main__':
     s.close()
 
     print(json.dumps(resp, sort_keys=True, indent=4, separators=(',', ': ')))
+
+
+def get_json_rpc_message(method, params):
+    """ Return a JSON-RPC formatted string.
+
+    :param method: Name of JSON-RPC method.
+    :param params: Dictionary with JSON-RPC parameters.
+    :return: JSON-RPC valid string.
+    """
+    return json.dumps({
+        'jsonrpc': '2.0',
+        'method': method,
+        'params': params,
+        'id': uuid4().int,
+    })
+
+if __name__ == '__main__':
+    main()
