@@ -1,0 +1,14 @@
+tests:
+    build: .
+    volumes:
+        - ./:/src
+    working_dir: /src
+    command:
+        py.test --cov-report term-missing --cov=tolk -v tests/
+
+docs:
+    build: .
+    volumes:
+        - ./:/src
+    command:
+        sphinx-build -b html /src/docs/source /src/docs/build
