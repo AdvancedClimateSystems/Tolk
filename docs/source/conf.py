@@ -22,9 +22,6 @@ import shlex
 #sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../../'))
 
-import tolk
-from tolk.api import read_discrete_inputs
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -160,7 +157,10 @@ html_static_path = ['_static']
 #html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
-#html_sidebars = {}
+html_sidebars = {
+    'index':    ['globaltoc.html', 'searchbox.html'],
+    '**':       ['globaltoc.html', 'relations.html', 'searchbox.html']
+}
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
