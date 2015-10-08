@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/AdvancedClimateSystems/Tolk.svg?branch=master)](https://travis-ci.org/AdvancedClimateSystems/Tolk)
 # Tolk
 Tolk exposes a JSON-RPC API to talk Modbus over RTU and is written in Python.
 
