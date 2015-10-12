@@ -40,7 +40,7 @@ def main():
     log.info('Add holding registers block from register 100 to 199 on slave 1')
 
     server.start()
-    log.info('TcpServer started listening at port {}.'.format(args['--port']))
+    log.info('TcpServer started listening at port {0}.'.format(args['--port']))
 
     try:
         while True:
