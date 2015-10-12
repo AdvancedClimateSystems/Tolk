@@ -43,10 +43,10 @@ class Handler(BaseRequestHandler):
         back to client.
         """
         self.data = self.request.recv(1024).strip()
-        log.debug('<-- {}'.format(self.data))
+        log.debug('<-- {0}'.format(self.data))
 
         resp = self.server.dispatcher.call(self.data)
-        log.debug('--> {}'.format(resp))
+        log.debug('--> {0}'.format(resp))
 
         try:
             self.request.sendall(resp)
@@ -56,7 +56,7 @@ class Handler(BaseRequestHandler):
             # terminates connection, but server still tries to send data to
             # client.
             if e.errno == errno.EPIPE:
-                log.error('[Errno {}]: Handler could not send response to '
+                log.error('[Errno {0}]: Handler could not send response to '
                           'client.'.format(errno.EPIP))
 
                 return
