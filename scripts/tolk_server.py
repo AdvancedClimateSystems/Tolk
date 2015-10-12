@@ -38,7 +38,7 @@ def main():
     server.dispatcher = dispatcher
 
     try:
-        log.info('Start Tolk listening at {}.'.format(args['--socket']))
+        log.info('Start Tolk listening at {0}.'.format(args['--socket']))
         server.serve_forever()
     except KeyboardInterrupt:
         log.info('Received SIGINT. Exiting')
@@ -50,3 +50,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+inputs: 449 en 450
+output: 449 en 450
