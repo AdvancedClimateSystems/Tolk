@@ -50,6 +50,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-inputs: 449 en 450
-output: 449 en 450
