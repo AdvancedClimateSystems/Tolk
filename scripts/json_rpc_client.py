@@ -39,7 +39,7 @@ def main():
     if args['read_coils']:
         method = Method(name='read_coils',  type_=READ)
     elif args['read_discrete_inputs']:
-        method = Method(name='discrete_inputs',  type_=READ)
+        method = Method(name='read_discrete_inputs',  type_=READ)
     elif args['read_holding_registers']:
         method = Method(name='read_holding_registers', type_=READ)
     elif args['read_input_registers']:

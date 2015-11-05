@@ -8,7 +8,7 @@ Tolk is JSON-RPC proxy for doing Modbus communication over RTU and TCP.
 from setuptools import setup
 
 setup(name='Tolk',
-      version='0.1.4',
+      version='0.1.5',
       author='Auke Willem Oosterhoff',
       author_email='oosterhoff@baopt.nl',
       description='JSON-RPC proxy for talking Modbus over RTU and TCP.',

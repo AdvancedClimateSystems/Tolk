@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/AdvancedClimateSystems/Tolk.svg?branch=master)](https://travis-ci.org/AdvancedClimateSystems/Tolk)
 [![Coverage Status](https://coveralls.io/repos/AdvancedClimateSystems/Tolk/badge.svg?branch=master&service=github)](https://coveralls.io/github/AdvancedClimateSystems/Tolk?branch=master)
-[![Pypi Version](https://img.shields.io/pypi/v/tolk.svg)](https://pypi.python.org/pypi/Tolk/0.1.1)
+[![Pypi Version](https://img.shields.io/pypi/v/tolk.svg)](https://pypi.python.org/pypi/Tolk/)
 # Tolk
-Tolk exposes a JSON-RPC API to talk Modbus over RTU and is written in Python.
+Tolk exposes a JSON-RPC API to talk Modbus over RTU or TCP and is written in Python.
 
 ## Quickstart
 Tolk ships with 3 scripts to help during development and testing:
@@ -16,7 +16,7 @@ Tolk ships with 3 scripts to help during development and testing:
 Start the Modbus slave...
 
 ```shell
-$ ./scripts/modbus_tcp_slave --port=502
+$ ./scripts/modbus_tcp_slave --port=1025
 [2015-10-03 11:02:47.796836] INFO: __main__: Add analog inputs data block from register 0 to 99 on slave 1
 [2015-10-03 11:02:47.797037] INFO: __main__: Add discrete inputs data block from register 0 to 99 on slave 1
 [2015-10-03 11:02:47.797176] INFO: __main__: Add coils data block from register 100 to 199 on slave 1
@@ -45,7 +45,7 @@ $ ./scripts/tolk_server.py --modbus-port=1025 --socket=/tmp/tolk.sock
 ```
 
 ## Tests
-Tolk uses [Pytest][pytest]. Running the test stuite is easy:
+Tolk uses [pytest][pytest]. Running the test suite is easy:
 
 ```shell
 $ docker-compose run tests
@@ -53,7 +53,7 @@ $ docker-compose run tests
 
 ## Documentation
 Documentation resides in docs/ and is written using Sphinx. The source of
-documentation is located at docs/source. The builded docs are written to
+documentation is located at docs/source. The built docs are written to
 docs/build.
 
 ```shell
