@@ -11,13 +11,13 @@ If you want to use Tolk as a package you can install Tolk from Pypi::
 or using `setup.py`::
 
     # Assumed you've got Tolk's source.
-    $ pip setup.py install
+    $ python setup.py install
 
 For development, debugging and testing
 ---------------------------------------
 
 If you want to build the documentation or run the test suite you need the
-source which is on GitHub_. Download it and install Tolk's requirement using
+source which is on GitHub_. Download it and install Tolk's requirements using
 pip::
 
     $ pip install -r dev_requirements.txt
