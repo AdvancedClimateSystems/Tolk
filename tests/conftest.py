@@ -1,5 +1,5 @@
 import pytest
-from random import randint
+import time
 from threading import Thread
 from SocketServer import UnixStreamServer
 from modbus_tk.defines import (ANALOG_INPUTS, DISCRETE_INPUTS, COILS,
@@ -12,7 +12,7 @@ from tolk import Handler, Dispatcher
 @pytest.yield_fixture
 def modbus_server():
     """ Yield an instance of modbus_tk.TcpServer. """
-    modbus_server = TcpServer(port=randint(1025, 9999))
+    modbus_server = TcpServer(port=0)
 
     slave = modbus_server.add_slave(1)
 
@@ -35,7 +35,10 @@ def modbus_server():
 @pytest.fixture
 def modbus_master(modbus_server):
     """ Return an instance of TcpMaster. """
-    _, port = modbus_server._sa
+    # Without a little wait, call will fail with:
+    # AttributeError: 'NoneType' object has no attribute 'getsockname'
+    time.sleep(0.01)
+    _, port = modbus_server._sock.getsockname()
     modbus_master = TcpMaster(port=port)
 
     return modbus_master
