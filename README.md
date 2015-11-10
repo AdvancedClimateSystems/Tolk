@@ -62,7 +62,7 @@ $ docker-compose run docs
 The generated docs are stored in `docs/build/`.
 
 ## License
-This software is licensed under [Mozila Public License][mpl].
+This software is licensed under [Mozilla Public License][mpl].
 &copy; 2015 [Advanced Climate Systems][acs].
 
 [acs]: http://advancedclimate.nl
