@@ -1,12 +1,9 @@
-from pyjsonrpc import JsonRpc, rpcmethod
 from modbus_tk.defines import (READ_COILS, READ_DISCRETE_INPUTS,
                                READ_HOLDING_REGISTERS, READ_INPUT_REGISTERS,
                                WRITE_SINGLE_COIL, WRITE_SINGLE_REGISTER,
                                WRITE_MULTIPLE_COILS, WRITE_MULTIPLE_REGISTERS)
-
-from modbus_tk.modbus import ModbusError
-
-from tolk.exceptions import modbus_mapping
+from pyjsonrpc import JsonRpc, rpcmethod
+from tolk.exceptions import json_rpc_error
 
 
 class Dispatcher(JsonRpc):
@@ -16,6 +13,7 @@ class Dispatcher(JsonRpc):
         super(JsonRpc, self).__init__()
 
     @rpcmethod
+    @json_rpc_error
     def read_coils(self, starting_address, quantity, slave_id=1):
         """ Execute Modbus function code 01: read status of coils.
 
@@ -23,33 +21,26 @@ class Dispatcher(JsonRpc):
         :param quantity: Number of coils to read.
         :param slave: Number with Slave id, default 1.
         """
-        try:
-            return self.modbus_master.execute(int(slave_id), READ_COILS,
-                                              int(starting_address),
-                                              int(quantity))
-        except ModbusError as e:
-            raise modbus_mapping[e.get_exception_code()]()
+        return self.modbus_master.execute(int(slave_id), READ_COILS,
+                                          int(starting_address),
+                                          int(quantity))
 
     @rpcmethod
-    def read_discrete_inputs(self, starting_address, quantity,
-                             slave_id=1):
+    @json_rpc_error
+    def read_discrete_inputs(self, starting_address, quantity, slave_id=1):
         """ Execute Modbus function code 02: read status of discrete inputs.
 
         :param starting_address: Number of starting address.
         :param quantity: Number of discrete inputs to read.
         :param slave: Number with Slave id, default 1.
         """
-        try:
-            return self.modbus_master.execute(int(slave_id),
-                                              READ_DISCRETE_INPUTS,
-                                              int(starting_address),
-                                              int(quantity))
-        except ModbusError as e:
-            raise modbus_mapping[e.get_exception_code()]()
+        return self.modbus_master.execute(int(slave_id), READ_DISCRETE_INPUTS,
+                                          int(starting_address),
+                                          int(quantity))
 
     @rpcmethod
-    def read_holding_registers(self, starting_address, quantity,
-                               slave_id=1):
+    @json_rpc_error
+    def read_holding_registers(self, starting_address, quantity, slave_id=1):
         """ Execute Modbus function code 03: read contents of contiguous block
         of holding registers.
 
@@ -57,17 +48,13 @@ class Dispatcher(JsonRpc):
         :param quantity: Number of holding registers to read.
         :param slave: Number with Slave id, default 1.
         """
-        try:
-            return self.modbus_master.execute(int(slave_id),
-                                              READ_HOLDING_REGISTERS,
-                                              int(starting_address),
-                                              int(quantity))
-        except ModbusError as e:
-            raise modbus_mapping[e.get_exception_code()]()
+        return self.modbus_master.execute(int(slave_id), READ_HOLDING_REGISTERS,
+                                          int(starting_address),
+                                          int(quantity))
 
     @rpcmethod
-    def read_input_registers(self, starting_address, quantity,
-                             slave_id=1):
+    @json_rpc_error
+    def read_input_registers(self, starting_address, quantity, slave_id=1):
         """ Execute Modbus function code 04: read contents of contiguous block
         of input registers.
 
@@ -75,15 +62,12 @@ class Dispatcher(JsonRpc):
         :param quantity: Number of input registers to read.
         :param slave: Number with Slave id, default 1.
         """
-        try:
-            return self.modbus_master.execute(int(slave_id),
-                                              READ_INPUT_REGISTERS,
-                                              int(starting_address),
-                                              int(quantity))
-        except ModbusError as e:
-            raise modbus_mapping[e.get_exception_code()]()
+        return self.modbus_master.execute(int(slave_id), READ_INPUT_REGISTERS,
+                                          int(starting_address),
+                                          int(quantity))
 
     @rpcmethod
+    @json_rpc_error
     def write_single_coil(self, address, value, slave_id=1):
         """ Execute Modbus function code 05: write value to single coil.
 
@@ -91,14 +75,12 @@ class Dispatcher(JsonRpc):
         :param value: Value to write to coil.
         :param slave: Number with Slave id, default 1.
         """
-        try:
-            return self.modbus_master.execute(int(slave_id),
-                                              WRITE_SINGLE_COIL, int(address),
-                                              output_value=int(value))
-        except ModbusError as e:
-            raise modbus_mapping[e.get_exception_code()]()
+        return self.modbus_master.execute(int(slave_id), WRITE_SINGLE_COIL,
+                                          int(address),
+                                          output_value=int(value))
 
     @rpcmethod
+    @json_rpc_error
     def write_single_register(self, address, value, slave_id=1):
         """ Execute Modbus function code 06: write value to single holding
         register.
@@ -107,16 +89,13 @@ class Dispatcher(JsonRpc):
         :param value: Value to write to holding register.
         :param slave: Number with Slave id, default 1.
         """
-        try:
-            return self.modbus_master.execute(int(slave_id),
-                                              WRITE_SINGLE_REGISTER, int(address),
-                                              output_value=int(value))
-        except ModbusError as e:
-            raise modbus_mapping[e.get_exception_code()]()
+        return self.modbus_master.execute(int(slave_id),
+                                          WRITE_SINGLE_REGISTER, int(address),
+                                          output_value=int(value))
 
     @rpcmethod
-    def write_multiple_coils(self, starting_address, values,
-                             slave_id=1):
+    @json_rpc_error
+    def write_multiple_coils(self, starting_address, values, slave_id=1):
         """ Execute Modbus function code 15: write sequence of values to a
         contiguous block of coils.
 
@@ -130,17 +109,14 @@ class Dispatcher(JsonRpc):
         :param slave: Number with Slave id, default 1.
         """
         values = [int(v) for v in values]
-        try:
-            return self.modbus_master.execute(int(slave_id),
-                                              WRITE_MULTIPLE_COILS,
-                                              int(starting_address),
-                                              output_value=values)
-        except ModbusError as e:
-            raise modbus_mapping[e.get_exception_code()]()
+        return self.modbus_master.execute(int(slave_id),
+                                          WRITE_MULTIPLE_COILS,
+                                          int(starting_address),
+                                          output_value=values)
 
     @rpcmethod
-    def write_multiple_registers(self, starting_address, values,
-                                 slave_id=1):
+    @json_rpc_error
+    def write_multiple_registers(self, starting_address, values, slave_id=1):
         """ Execute Modbus function code 16: write sequence of values to a
         contiguous block of holding registers.
 
@@ -154,10 +130,7 @@ class Dispatcher(JsonRpc):
         :param slave: Number with Slave id, default 1.
         """
         values = [int(v) for v in values]
-        try:
-            return self.modbus_master.execute(int(slave_id),
-                                              WRITE_MULTIPLE_REGISTERS,
-                                              int(starting_address),
-                                              output_value=values)
-        except ModbusError as e:
-            raise modbus_mapping[e.get_exception_code()]()
+        return self.modbus_master.execute(int(slave_id),
+                                          WRITE_MULTIPLE_REGISTERS,
+                                          int(starting_address),
+                                          output_value=values)

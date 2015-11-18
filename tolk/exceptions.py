@@ -1,6 +1,17 @@
+from modbus_tk.modbus import ModbusError
 from pyjsonrpc.rpcerror import jsonrpcerrors, JsonRpcError
 
 modbus_mapping = {}
+
+
+def json_rpc_error(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except ModbusError as e:
+            raise modbus_mapping[e.get_exception_code()]
+    return wrapper
 
 
 class IllegalFunction(JsonRpcError):
