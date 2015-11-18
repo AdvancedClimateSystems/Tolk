@@ -68,14 +68,14 @@ def read_input_registers(starting_address, quantity, sock):
 
 def write_single_coil(address, value, sock):
     """ Send write_single_coil request over socket. """
-    msg = get_json_rpc_message('write_single_coil', {'address':  address,
+    msg = get_json_rpc_message('write_single_coil', {'address': address,
                                                      'value': value})
     return send_request(msg, sock)
 
 
 def write_single_register(address, value, sock):
     """ Send write_single_register request over socket. """
-    msg = get_json_rpc_message('write_single_register', {'address':  address,
+    msg = get_json_rpc_message('write_single_register', {'address': address,
                                                          'value': value})
     return send_request(msg, sock)
 
@@ -155,7 +155,7 @@ def test_read_and_write_holding_registers(running_server):
     # register 100 and 2674 to coil 101.
     sock = get_socket(running_server.server_address)
     msg, resp = write_multiple_registers(starting_address=100,
-                                        values=[0, 2674], sock=sock)
+                                         values=[0, 2674], sock=sock)
     assert json.loads(resp) == get_expected_response(msg, [100, 2])
 
     # Read registers 100 and 101 again to verify previous write requests was
@@ -194,3 +194,25 @@ def test_read_and_write_coils(running_server):
     sock = get_socket(running_server.server_address)
     msg, resp = read_coils(starting_address=100, quantity=2, sock=sock)
     assert json.loads(resp) == get_expected_response(msg, [0, 1])
+
+
+def test_raise_jsonrpc_error(running_server):
+    # The actual test case:
+    #
+    # Read discrete input 100, and verify it's has returned JSONRPC error code -33002,
+    # which corresponds to IllegalDataAddress. Unless `test_read_discrete_inputs()`
+    # somehow is not executed (e.g. I commented it), it will raise an timed out error
+    sock = get_socket(running_server.server_address)
+    _, resp = read_discrete_inputs(starting_address=100, quantity=1,
+                                   sock=sock)
+    json_rpc_error_code = json.loads(resp)['error']['code']
+    assert json_rpc_error_code == -32002
+
+    # Verification test, contents copied from `test_read_discrete_inputs()`
+    # Whenever you run this, an [Errno 111] Connection refused\n
+    # will return. Do you comment either `test_read_discrete_inputs()` or this
+    # test function, no error will be raised.
+    # sock = get_socket(running_server.server_address)
+    # msg, resp = read_discrete_inputs(starting_address=0, quantity=2,
+    #                                  sock=sock)
+    # assert json.loads(resp) == get_expected_response(msg, [1, 0])
