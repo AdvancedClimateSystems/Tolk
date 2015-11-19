@@ -1,11 +1,9 @@
 #!/usr/bin/env python
-"""
-Tolk
-====
-
-Tolk is JSON-RPC proxy for doing Modbus communication over RTU and TCP.
-"""
+import os
 from setuptools import setup
+cwd = os.path.dirname(os.path.abspath(__name__))
+
+long_description = open(os.path.join(cwd, 'README.rst'), 'r').read()
 
 setup(name='Tolk',
       version='0.1.5',
@@ -13,7 +11,7 @@ setup(name='Tolk',
       author_email='oosterhoff@baopt.nl',
       description='JSON-RPC proxy for talking Modbus over RTU and TCP.',
       url='https://github.com/AdvancedClimateSystems/Tolk/',
-      long_description=__doc__,
+      long_description=long_description,
       license='MPL',
       packages=[
           'tolk',
