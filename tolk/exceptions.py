@@ -1,3 +1,5 @@
+from functools import wraps
+
 from modbus_tk.modbus import ModbusError
 from pyjsonrpc.rpcerror import jsonrpcerrors, JsonRpcError
 
@@ -5,6 +7,9 @@ modbus_mapping = {}
 
 
 def json_rpc_error(func):
+    """ Wraps a function and raises a JSON RPC exception when a ModbusError has
+    been excepted.
+    """
     @wraps(func)
     def wrapper(*args, **kwargs):
         try:

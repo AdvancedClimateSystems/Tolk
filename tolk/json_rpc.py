@@ -76,8 +76,7 @@ class Dispatcher(JsonRpc):
         :param slave: Number with Slave id, default 1.
         """
         return self.modbus_master.execute(int(slave_id), WRITE_SINGLE_COIL,
-                                          int(address),
-                                          output_value=int(value))
+                                          int(address), output_value=int(value))
 
     @rpcmethod
     @json_rpc_error
