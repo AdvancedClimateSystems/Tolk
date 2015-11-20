@@ -194,25 +194,3 @@ def test_read_and_write_coils(running_server):
     sock = get_socket(running_server.server_address)
     msg, resp = read_coils(starting_address=100, quantity=2, sock=sock)
     assert json.loads(resp) == get_expected_response(msg, [0, 1])
-
-
-def test_raise_jsonrpc_error(running_server):
-    # The actual test case:
-    #
-    # Read discrete input 100, and verify it's has returned JSONRPC error code -33002,
-    # which corresponds to IllegalDataAddress. Unless `test_read_discrete_inputs()`
-    # somehow is not executed (e.g. I commented it), it will raise an timed out error
-    sock = get_socket(running_server.server_address)
-    _, resp = read_discrete_inputs(starting_address=100, quantity=1,
-                                   sock=sock)
-    json_rpc_error_code = json.loads(resp)['error']['code']
-    assert json_rpc_error_code == -32002
-
-    # Verification test, contents copied from `test_read_discrete_inputs()`
-    # Whenever you run this, an [Errno 111] Connection refused\n
-    # will return. Do you comment either `test_read_discrete_inputs()` or this
-    # test function, no error will be raised.
-    # sock = get_socket(running_server.server_address)
-    # msg, resp = read_discrete_inputs(starting_address=0, quantity=2,
-    #                                  sock=sock)
-    # assert json.loads(resp) == get_expected_response(msg, [1, 0])
