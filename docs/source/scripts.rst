@@ -3,7 +3,7 @@
 Scripts
 =======
 
-See `Quickstart` to read about how to use these scripts together.
+See `Usage` to read about how to use these scripts together.
 
 .. _tolk_server:
 

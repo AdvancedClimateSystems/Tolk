@@ -66,7 +66,7 @@ Section :ref:`scripts` tells more about these scripts.
 
 Start the Modbus slave...::
 
-    $ ./scripts/modbus_tcp_slave --port=502
+    $ ./scripts/modbus_tcp_slave --port=1025
     [2015-10-03 11:02:47.796836] INFO: __main__: Add analog inputs data block from register 0 to 99 on slave 1
     [2015-10-03 11:02:47.797037] INFO: __main__: Add discrete inputs data block from register 0 to 99 on slave 1
     [2015-10-03 11:02:47.797176] INFO: __main__: Add coils data block from register 100 to 199 on slave 1

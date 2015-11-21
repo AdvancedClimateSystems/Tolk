@@ -34,7 +34,7 @@ def main():
     args = docopt(__doc__)
 
     s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-    s.connect('/tmp/tolk.sock')
+    s.connect(args['--socket'])
 
     if args['read_coils']:
         method = Method(name='read_coils',  type_=READ)
