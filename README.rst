@@ -38,7 +38,7 @@ turn will request a Modbus slave at `localhost:502`.
 License
 -------
 
-This software is licensed under `Mozilla Public License`_.  &copy; 2015
+This software is licensed under `Mozilla Public License`_. © 2015
 `Advanced Climate Systems`_.
 
 .. External References:
