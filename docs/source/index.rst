@@ -16,3 +16,4 @@ Contents:
    api
    scripts
    modules
+   changelog

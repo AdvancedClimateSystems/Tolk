@@ -6,7 +6,7 @@ cwd = os.path.dirname(os.path.abspath(__name__))
 long_description = open(os.path.join(cwd, 'README.rst'), 'r').read()
 
 setup(name='Tolk',
-      version='0.1.5',
+      version='0.2.0',
       author='Auke Willem Oosterhoff',
       author_email='oosterhoff@baopt.nl',
       description='JSON-RPC proxy for talking Modbus over RTU and TCP.',
