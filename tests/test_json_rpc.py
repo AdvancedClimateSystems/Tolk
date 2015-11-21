@@ -68,14 +68,14 @@ def read_input_registers(starting_address, quantity, sock):
 
 def write_single_coil(address, value, sock):
     """ Send write_single_coil request over socket. """
-    msg = get_json_rpc_message('write_single_coil', {'address':  address,
+    msg = get_json_rpc_message('write_single_coil', {'address': address,
                                                      'value': value})
     return send_request(msg, sock)
 
 
 def write_single_register(address, value, sock):
     """ Send write_single_register request over socket. """
-    msg = get_json_rpc_message('write_single_register', {'address':  address,
+    msg = get_json_rpc_message('write_single_register', {'address': address,
                                                          'value': value})
     return send_request(msg, sock)
 
@@ -155,7 +155,7 @@ def test_read_and_write_holding_registers(running_server):
     # register 100 and 2674 to coil 101.
     sock = get_socket(running_server.server_address)
     msg, resp = write_multiple_registers(starting_address=100,
-                                        values=[0, 2674], sock=sock)
+                                         values=[0, 2674], sock=sock)
     assert json.loads(resp) == get_expected_response(msg, [100, 2])
 
     # Read registers 100 and 101 again to verify previous write requests was
