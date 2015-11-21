@@ -9,7 +9,7 @@ from tolk.exceptions import (json_rpc_error, IllegalFunction,
                              GatewayTargetDeviceFailedToRespond)
 
 
-@pytest.mark.parametrize('modbus_code,json_rpc_exception,expected', [
+@pytest.mark.parametrize('modbus_code, json_rpc_exception, expected', [
     (1, IllegalFunction, 'JsonRpcError(-32001): Function code is not valid.'),
     (2, IllegalDataAddress, 'JsonRpcError(-32002): Data address is not valid.'),
     (3, IllegalDataValue, 'JsonRpcError(-32003): Data value is not valid.'),

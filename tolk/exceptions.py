@@ -7,8 +7,17 @@ modbus_mapping = {}
 
 
 def json_rpc_error(func):
-    """ Wraps a function and raises a JSON RPC exception when a ModbusError has
-    been excepted.
+    """ Wraps a function and raises a JSON RPC error when a ModbusError has
+    been excepted::
+
+        @json_rpc_error()
+        def modbus_request(modbus_master, slave_id, function_code,
+                           starting_address, quantity):
+
+        modbus_master.execute(int(slave_id), function_code,
+                              int(starting_address),
+                              int(quantity))
+
     """
     @wraps(func)
     def wrapper(*args, **kwargs):

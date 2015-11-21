@@ -19,7 +19,7 @@ class Dispatcher(JsonRpc):
 
         :param starting_address: Number of starting address.
         :param quantity: Number of coils to read.
-        :param slave: Number with Slave id, default 1.
+        :param slave_id: Number with Slave id, default 1.
         """
         return self.modbus_master.execute(int(slave_id), READ_COILS,
                                           int(starting_address),
@@ -32,7 +32,7 @@ class Dispatcher(JsonRpc):
 
         :param starting_address: Number of starting address.
         :param quantity: Number of discrete inputs to read.
-        :param slave: Number with Slave id, default 1.
+        :param slave_id: Number with Slave id, default 1.
         """
         return self.modbus_master.execute(int(slave_id), READ_DISCRETE_INPUTS,
                                           int(starting_address),
@@ -46,7 +46,7 @@ class Dispatcher(JsonRpc):
 
         :param starting_address: Number of starting address.
         :param quantity: Number of holding registers to read.
-        :param slave: Number with Slave id, default 1.
+        :param slave_id: Number with Slave id, default 1.
         """
         return self.modbus_master.execute(int(slave_id), READ_HOLDING_REGISTERS,
                                           int(starting_address),
@@ -60,7 +60,7 @@ class Dispatcher(JsonRpc):
 
         :param starting_address: Number of starting address.
         :param quantity: Number of input registers to read.
-        :param slave: Number with Slave id, default 1.
+        :param slave_id: Number with Slave id, default 1.
         """
         return self.modbus_master.execute(int(slave_id), READ_INPUT_REGISTERS,
                                           int(starting_address),
@@ -73,7 +73,7 @@ class Dispatcher(JsonRpc):
 
         :param address: Address of coil.
         :param value: Value to write to coil.
-        :param slave: Number with Slave id, default 1.
+        :param slave_id: Number with Slave id, default 1.
         """
         return self.modbus_master.execute(int(slave_id), WRITE_SINGLE_COIL,
                                           int(address), output_value=int(value))
@@ -86,7 +86,7 @@ class Dispatcher(JsonRpc):
 
         :param address: Address of holding register.
         :param value: Value to write to holding register.
-        :param slave: Number with Slave id, default 1.
+        :param slave_id: Number with Slave id, default 1.
         """
         return self.modbus_master.execute(int(slave_id),
                                           WRITE_SINGLE_REGISTER, int(address),
@@ -101,11 +101,11 @@ class Dispatcher(JsonRpc):
         .. note:: This method doesn't follow the interface as described in the
             Modbus specification. The specification describes 2 extra
             'parameters': quantity of outputs and byte count. Tolk will derive
-            them from paramater `values`.
+            them from parameter `values`.
 
         :param starting_address: Number of starting address.
         :param values: List with values.
-        :param slave: Number with Slave id, default 1.
+        :param slave_id: Number with Slave id, default 1.
         """
         values = [int(v) for v in values]
         return self.modbus_master.execute(int(slave_id),
@@ -122,11 +122,11 @@ class Dispatcher(JsonRpc):
         .. note:: This method doesn't follow the interface as described in the
             Modbus specification. The specification describes 2 extra
             'parameters': quantity of outputs and byte count. Tolk will derive
-            them from paramater `values`.
+            them from parameter `values`.
 
         :param starting_address: Number of starting address.
         :param values: List with values to write.
-        :param slave: Number with Slave id, default 1.
+        :param slave_id: Number with Slave id, default 1.
         """
         values = [int(v) for v in values]
         return self.modbus_master.execute(int(slave_id),
