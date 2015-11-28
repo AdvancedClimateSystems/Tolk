@@ -51,13 +51,12 @@ class Handler(BaseRequestHandler):
         try:
             self.request.sendall(resp)
         except socket.error as e:
-
             # Catches broken pipe errors, errno 32. This is when client
             # terminates connection, but server still tries to send data to
             # client.
             if e.errno == errno.EPIPE:
                 log.error('[Errno {0}]: Handler could not send response to '
-                          'client.'.format(errno.EPIP))
+                          'client.'.format(errno.EPIPE))
 
                 return
             raise
