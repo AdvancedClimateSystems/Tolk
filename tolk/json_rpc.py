@@ -20,6 +20,35 @@ class Dispatcher(JsonRpc):
         :param starting_address: Number of starting address.
         :param quantity: Number of coils to read.
         :param slave_id: Number with Slave id, default 1.
+        :returns: JSON-RPC response containing the status of coils on success JSON-RPC error on failure.
+
+        **Example request:**
+
+        .. sourcecode:: json
+
+            {
+                "params":{
+                    "starting_address":100,
+                    "quantity":2,
+                    "slave_id":1
+                },
+                "jsonrpc":"2.0",
+                "method":"read_coils",
+                "id":1
+            }
+
+        **Example response:**
+
+        .. sourcecode:: json
+
+            {
+                "jsonrpc":"2.0",
+                "id":1,
+                "result":[
+                    0,
+                    1
+                ]
+            }
         """
         return self.modbus_master.execute(int(slave_id), READ_COILS,
                                           int(starting_address),
@@ -33,6 +62,36 @@ class Dispatcher(JsonRpc):
         :param starting_address: Number of starting address.
         :param quantity: Number of discrete inputs to read.
         :param slave_id: Number with Slave id, default 1.
+        :returns: JSON-RPC response containing the status of discrete inputs
+        on success or JSON-RPC error on failure.
+
+        **Example request:**
+
+        .. sourcecode:: json
+
+            {
+                "params":{
+                    "starting_address":0,
+                    "quantity":2,
+                    "slave_id":1
+                },
+                "jsonrpc":"2.0",
+                "method":"read_discrete_inputs",
+                "id":1
+            }
+
+        **Example response:**
+
+        .. sourcecode:: json
+
+            {
+                "jsonrpc":"2.0",
+                "id":1,
+                "result":[
+                    0,
+                    1,
+                ]
+            }
         """
         return self.modbus_master.execute(int(slave_id), READ_DISCRETE_INPUTS,
                                           int(starting_address),
@@ -47,6 +106,36 @@ class Dispatcher(JsonRpc):
         :param starting_address: Number of starting address.
         :param quantity: Number of holding registers to read.
         :param slave_id: Number with Slave id, default 1.
+        :returns: JSON-RPC response with the contents of holding registers
+        on success or JSON-RPC error on failure.
+
+        **Example request:**
+
+        .. sourcecode:: json
+
+            {
+                "params":{
+                    "starting_address":100,
+                    "quantity":2,
+                    "slave_id":1
+                },
+                "jsonrpc":"2.0",
+                "method":"read_holding_registers",
+                "id":1
+            }
+
+        **Example response:**
+
+        .. sourcecode:: json
+
+            {
+                "jsonrpc":"2.0",
+                "id":1,
+                "result":[
+                    1234,
+                    32433,
+                ]
+            }
         """
         return self.modbus_master.execute(int(slave_id), READ_HOLDING_REGISTERS,
                                           int(starting_address),
@@ -61,6 +150,36 @@ class Dispatcher(JsonRpc):
         :param starting_address: Number of starting address.
         :param quantity: Number of input registers to read.
         :param slave_id: Number with Slave id, default 1.
+        :returns: JSON-RPC response with the contents of input registers
+        on success or JSON-RPC error on failure.
+
+        **Example request:**
+
+        .. sourcecode:: json
+
+            {
+                "params":{
+                    "starting_address":100,
+                    "quantity":2,
+                    "slave_id":1
+                },
+                "jsonrpc":"2.0",
+                "method":"read_input_registers",
+                "id":1
+            }
+
+        **Example response:**
+
+        .. sourcecode:: json
+
+            {
+                "jsonrpc":"2.0",
+                "id":1,
+                "result":[
+                    1234,
+                    32433,
+                ]
+            }
         """
         return self.modbus_master.execute(int(slave_id), READ_INPUT_REGISTERS,
                                           int(starting_address),
@@ -74,6 +193,35 @@ class Dispatcher(JsonRpc):
         :param address: Address of coil.
         :param value: Value to write to coil.
         :param slave_id: Number with Slave id, default 1.
+        :returns: JSON-RPC response containing the address and value that has been written.
+
+        **Example request:**
+
+        .. sourcecode:: json
+
+            {
+                "params":{
+                    "starting_address":100,
+                    "value":1,
+                    "slave_id":1
+                },
+                "jsonrpc":"2.0",
+                "method":"write_single_coil",
+                "id":1
+            }
+
+        **Example response:**
+
+        .. sourcecode:: json
+
+            {
+                "jsonrpc":"2.0",
+                "id":1,
+                "result":[
+                    100,
+                    65280,
+                ]
+            }
         """
         return self.modbus_master.execute(int(slave_id), WRITE_SINGLE_COIL,
                                           int(address), output_value=int(value))
@@ -87,6 +235,35 @@ class Dispatcher(JsonRpc):
         :param address: Address of holding register.
         :param value: Value to write to holding register.
         :param slave_id: Number with Slave id, default 1.
+        :returns: JSON-RPC response containing the address and the value that has been written.
+
+        **Example request:**
+
+        .. sourcecode:: json
+
+            {
+                "params":{
+                    "starting_address":100,
+                    "value":1234,
+                    "slave_id":1
+                },
+                "jsonrpc":"2.0",
+                "method":"write_single_register",
+                "id":1
+            }
+
+        **Example response:**
+
+        .. sourcecode:: json
+
+            {
+                "jsonrpc":"2.0",
+                "id":1,
+                "result":[
+                    100,
+                    1234,
+                ]
+            }
         """
         return self.modbus_master.execute(int(slave_id),
                                           WRITE_SINGLE_REGISTER, int(address),
@@ -106,6 +283,35 @@ class Dispatcher(JsonRpc):
         :param starting_address: Number of starting address.
         :param values: List with values.
         :param slave_id: Number with Slave id, default 1.
+        :returns: JSON-RPC response containing the address and the number of coils that has been written.
+
+        **Example request:**
+
+        .. sourcecode:: json
+
+            {
+                "params":{
+                    "starting_address":100,
+                    "value": [1, 0, 1, 0],
+                    "slave_id":1
+                },
+                "jsonrpc":"2.0",
+                "method":"write_multiple_coils",
+                "id":1
+            }
+
+        **Example response:**
+
+        .. sourcecode:: json
+
+            {
+                "jsonrpc":"2.0",
+                "id":1,
+                "result":[
+                    100,
+                    4,
+                ]
+            }
         """
         values = [int(v) for v in values]
         return self.modbus_master.execute(int(slave_id),
@@ -127,6 +333,35 @@ class Dispatcher(JsonRpc):
         :param starting_address: Number of starting address.
         :param values: List with values to write.
         :param slave_id: Number with Slave id, default 1.
+        :returns: JSON-RPC response containing the address and the number of values that has been written.
+
+        **Example request:**
+
+        .. sourcecode:: json
+
+            {
+                "params":{
+                    "starting_address":100,
+                    "value": [1234, 5678, 9012, 3456],
+                    "slave_id":1
+                },
+                "jsonrpc":"2.0",
+                "method":"write_multiple_registers",
+                "id":1
+            }
+
+        **Example response:**
+
+        .. sourcecode:: json
+
+            {
+                "jsonrpc":"2.0",
+                "id":1,
+                "result":[
+                    100,
+                    4,
+                ]
+            }
         """
         values = [int(v) for v in values]
         return self.modbus_master.execute(int(slave_id),
