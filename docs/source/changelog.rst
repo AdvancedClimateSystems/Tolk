@@ -1,6 +1,20 @@
 Changelog
 =========
 
+0.2.1 (2015-12-01)
+++++++++++++++++++
+
+**Bugs**
+
+* `#4`_ Added docs for return values of the API.
+* `#7`_ Tests for except clause in Handler.handle()
+* `#10`_ Fixes hard-coded socket path in scripts/json_rpc_client.py
+
+.. _#4: https://github.com/AdvancedClimateSystems/Tolk/issues/4
+.. _#7: https://github.com/AdvancedClimateSystems/Tolk/issues/7
+.. _#10: https://github.com/AdvancedClimateSystems/Tolk/issues/10
+
+
 0.2.0 (2015-11-21)
 ++++++++++++++++++
 
